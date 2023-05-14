@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <style>
+      /* Add some basic styles to make the chatbot interface look nice */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 50px;
+      }
+      label {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      input[type=text] {
+        width: 300px;
+        height: 40px;
+        font-size: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      button[type=submit] {
+        width: 100px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      button[type=submit]:hover {
+        background-color: #3e8e41;
+      }
+      p {
+        font-size: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Chatbot</h1>
+    <form>
+      <label for="message">Message:</label>
+      <input type="text" id="message" name="message" required>
+      <button type="submit">Send</button>
+    </form>
+    <p id="response"></p>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // Add an event listener to the form to send a request to the chatbot API when the form is submitted
+      const form = document.querySelector('form');
+      const responseElement = document.getElementById('response');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const message = document.getElementById('message').value;
+        try {
+          const res = await axios.post('http://127.0.0.1:5000/chat', { message });
+          console.log(res.data);
+          responseElement.textContent = res.data.response;
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    </script>
+  </body>
+</html>
