@@ -30,6 +30,9 @@ Install These python Libraries (Im using Anaconda)
 #### Chat with bot
 
 ```bash
+
+/chat
+
  {
     "message": "Your Message here"
 }
