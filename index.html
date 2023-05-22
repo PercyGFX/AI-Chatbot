@@ -106,34 +106,38 @@
         }
 
         .botText {
-            min-width: 10%;
-            display: inline-block;
-            font-size: .85em;
-            position: relative;
-            margin: 20% 0 3% 0;
-            animation: scaler 150ms ease-out;
-        }
+    min-width: 10%;
+    display: inline-block;
+    font-size: .85em;
+    position: relative;
+    margin: 20% 0 3% 0;
+    animation: scaler 150ms ease-out;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    padding: 10px; /* Added this line */
+}
 
-        .botText span:after {
-            content: "";
-            display: block;
-            position: absolute;
-            left: -10px;
-            top: 0;
-            width: 0;
-            border-width: 10px 10px 0;
-            border-style: solid;
-            border-color: #444 transparent;
+.botText span {
+    display: inline-block;
+    background-color: #444;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px; /* Added this line */
+    word-wrap: break-word;
+    font-weight: 500;
+}
 
-        }
-
-        .botText span {
-            background-color: #444;
-            color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            word-wrap: break-word;
-            font-weight: 500;
+.botText span:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -10px;
+    top: 0;
+    width: 0;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #444 transparent;
+}
 
 
         }
@@ -240,12 +244,10 @@
 <body>
     <div id="pagewrap">
         <header>
-           
-            <h3 class="name">Hi! I'm NANOCHAT </h3>
-          
+            <h3 class="name">Hi! I'm NANOCHAT</h3>
         </header>
         <div id="chatbox">
-            <div id="message"></div>
+            <p class="botText"><span>Welcome! How can I assist you?</span></p>
         </div>
         <section class="reply" id="reply">
             <form>
@@ -259,9 +261,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        // Add an event listener to the form to send a request to the chatbot API when the form is submitted
         const form = document.querySelector('form');
-        const chatboxElement = document.getElementById('message');
+        const chatboxElement = document.getElementById('chatbox');
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -270,18 +271,12 @@
                 const res = await axios.post('http://127.0.0.1:5000/chat', { message });
                 console.log(res.data);
 
-                // Display user message in the chatbox
                 const userHtml = '<p class="userText"><span>' + message + '</span></p>';
-                chatboxElement.innerHTML += userHtml;
-
-                // Display chatbot response in the chatbox
                 const botHtml = '<p class="botText"><span>' + res.data.response + '</span></p>';
-                chatboxElement.innerHTML += botHtml;
 
-                // Scroll to the bottom of the chatbox
+                chatboxElement.innerHTML += userHtml + '<br>' + botHtml;
                 chatboxElement.scrollTop = chatboxElement.scrollHeight;
 
-                // Clear input field
                 document.getElementById('text').value = '';
             } catch (error) {
                 console.error(error);
@@ -289,6 +284,9 @@
         });
     </script>
 </body>
+
+
+
 
 
 </html>
